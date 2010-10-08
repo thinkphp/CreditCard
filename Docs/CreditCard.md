@@ -37,7 +37,7 @@ none.
 
 ### Returns:
 
-* (*Boolean*) true/false => if the card number is valid return false, otherwise return false;
+* (*Boolean*) true/false => if the card number is valid return true, otherwise return false;
 
 
 CreditCard Method: getType (#CreditCard: getType)
