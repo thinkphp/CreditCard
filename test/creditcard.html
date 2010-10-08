@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+<head> 
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>CreditCard Plugin MooTools</title> 
+   <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css"> 
+   <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/base/base.css" type="text/css">
+   <style type="text/css">
+    html,body {background: #ccc;font-family: georgia,arial,verdana,sans-serif} 
+    #doc {background: #fff;border: 1em solid #fff;border-radius:10px;-moz-border-radius:10px;-webkit-border-radius: 10px;-moz-box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.4);} 
+    h1{font-family:calibri,sans-serif;color:#111;font-size:200%;font-weight:bold;}
+    .valid{background: #393;color: #fff;padding: 4px}
+    .invalid{background: #fff;color: #c00;padding: 4px}
+    #ft {font-size:80%;color:#888;text-align:left;margin:2em 0;font-size: 12px}
+    #ft p a{color:#393;}
+   </style>
+   <script src="http://www.google.com/jsapi?key=ABQIAAAA1XbMiDxx_BTCY2_FkPh06RRaGTYH6UMl8mADNa0YKuWNNa8VNxQEerTAUcfkyrr6OwBovxn7TDAH5Q"></script>
+   <script type="text/javascript">google.load("mootools", "1.2.4");</script>  
+   <script type="text/javascript" src="CreditCard-yui-compressed.js"></script>
+</head> 
+<body> 
+   <div id="doc" class="yui-t7"> 
+    <div id="hd" role="banner"><h1>CreditCard Plugin MooTools</h1></div> 
+    <div id="bd" role="main"> 
+    <form id="f" action="#">
+    <p><label for="card">Card: </label><input type="text" id="card" /><input type="submit" value="Check"/></p>
+    </form>
+    <div id="result"></div>
+    <pre><code>
+    var visa = new CreditCard("4012 8888 8888 1881");
+        if(window.console) {console.log(visa.isValid());}
+        if(window.console) {console.log(visa.getType());}
+        if(window.console) {console.log(visa.isVisa());}
+
+    var ms = new CreditCard("5105 1051 0510 5100");
+        if(window.console) {console.log(ms.isValid());}
+        if(window.console) {console.log(ms.getType());}
+        if(window.console) {console.log(ms.isMasterCard());}
+
+    var am = new CreditCard("371449635398431");
+        if(window.console) {console.log(am.isValid());}
+        if(window.console) {console.log(am.getType());}
+        if(window.console) {console.log(am.isAmericanExpress());}
+
+    var am = new CreditCard("6011111111111117");
+        if(window.console) {console.log(am.getType());}
+
+    var card = new CreditCard("4111111111111112");
+        if(card.isValid()) {
+          if(window.console) { console.log('The card is valid!'); }
+        }else{
+          if(window.console) {console.log('the card is not valid!');}
+        }
+
+  </code></pre>
+    </div><!-- end bd --> 
+ <div id="ft"><p>Created by @<a href="http://twitter.com/thinkphp">thinkphp</a> | download the source code on <a href="#">GitHub</a></p></div>
+</div><!--end doc -->
+<script type="text/javascript">
+
+    $('f').addEvent('submit',function(e){
+           if(e) {e.stop();}
+           var number = $('card').get('value');
+           if(number){
+               var card = new CreditCard(number);
+                   if(card.isValid()) {
+                      $('result').set("html","<span class='valid'>The card is valid</span>");
+                   } else {
+                      $('result').set("html","<span class='invalid'>The card is not valid</span>");
+                   }
+           }
+    });
+
+    var visa = new CreditCard("4012 8888 8888 1881");
+        if(window.console) {console.log(visa.isValid());}
+        if(window.console) {console.log(visa.getType());}
+        if(window.console) {console.log(visa.isVisa());}
+
+    var ms = new CreditCard("5105 1051 0510 5100");
+        if(window.console) {console.log(ms.isValid());}
+        if(window.console) {console.log(ms.getType());}
+        if(window.console) {console.log(ms.isMasterCard());}
+
+    var am = new CreditCard("371449635398431");
+        if(window.console) {console.log(am.isValid());}
+        if(window.console) {console.log(am.getType());}
+        if(window.console) {console.log(am.isAmericanExpress());}
+
+    var am = new CreditCard("6011111111111117");
+        if(window.console) {console.log(am.getType());}
+
+    var card = new CreditCard("4111111111111112");
+        if(card.isValid()) {
+          if(window.console) { console.log('The card is valid!'); }
+        }else{
+          if(window.console) {console.log('the card is not valid!');}
+        }
+</script>  
+<!-- test numbers: https://www.paypalobjects.com/en_US/vhelp/paypalmanager_help/credit_card_numbers.htm -->
+</body> 
+</html> 
+
+

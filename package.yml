@@ -1,0 +1,7 @@
+name: CreditCard
+author: thinkphp
+current: v1.0
+category: utilities
+tags: [credit,card,luhn,algorithm,mastercard,maestro,visa,americamexpress]
+docs: 
+demo: http://thinkphp.ro/apps/js-hacks/creditcard/creditcard.html 
