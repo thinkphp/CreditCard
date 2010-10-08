@@ -4,4 +4,4 @@ current: v1.0
 category: utilities
 tags: [credit,card,luhn,algorithm,mastercard,maestro,visa,americamexpress]
 docs: http://github.com/thinkphp/CreditCard/blob/master/Docs/CreditCard.md
-demo: http://thinkphp.ro/apps/js-hacks/creditcard/creditcard.html 
+demo: http://thinkphp.ro/apps/js-hacks/creditcard/ 
