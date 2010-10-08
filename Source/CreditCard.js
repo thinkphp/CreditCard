@@ -1,3 +1,21 @@
+/*
+---
+description: plugin credit card validation
+
+authors:
+  - Adrian Statescu (http://thinkphp.ro)
+
+license:
+  - MIT-style license
+
+requires:
+  core/1.2.1:   '*'
+
+provides:
+  - CreditCard
+...
+*/
+
 var CreditCard = new Class({
 
               /* Implements */
