@@ -3,8 +3,6 @@ CreditCard
 
 This plugin provides support for validation input number credit card.
 
-![Screenshot](http://thinkphp.ro/apps/js-hacks/creditcard/card.jpg)
-
 How to use
 ----------
 
