@@ -26,7 +26,9 @@ In your JavaScript code:
     card.is('Visa') // => true
 
 
-Supported types:
+Supported card types
+----------
+
 * Visa
 * MasterCard
 * Discover
@@ -34,5 +36,3 @@ Supported types:
 * DinersClub
 * JCV
 * Maestro
-
-
