@@ -1,6 +1,8 @@
 Class: CreditCard (#CreditCard)
 ==============================
 
+This class provides support for validation input number credit card.
+
 ### Implements:
 
 Options, Events
