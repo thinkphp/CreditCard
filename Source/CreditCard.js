@@ -3,145 +3,108 @@
 description: plugin credit card validation
 
 authors:
-  - Adrian Statescu (http://thinkphp.ro)
+- Adrian Statescu (http://thinkphp.ro)
+- Maksim Horbachevsky
 
 license:
-  - MIT-style license
+- MIT-style license
 
 requires:
-  core/1.2.1:   '*'
+- core/1.2.1: '*'
 
 provides:
-  - CreditCard
+- CreditCard
 ...
 */
 
 var CreditCard = new Class({
 
-              /* Implements */
-              implements: [Options,Events],
+    options: {
+        cards: {
+            Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+            MasterCard: /^5[1-5][0-9]{14}$/,
+            Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
+            AmericanExpress: /^3[47][0-9]{13}$/,
+            DinersClub: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
+            JCV: /^(?:2131|1800|35\d{3})\d{11}$/,
+            Maestro: /^((67\d{2})|(4\d{3})|(5[1-5]\d{2})|(6011))-?\d{4}-?\d{4}-?\d{4}|3[4,7]\d{13}$/
+        },
+        unknown: "Unknown type"
+    },
 
-              /* Set options */
-              options: {
-                  //credit cards you accept
-                  CARDS: {
-                    Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,                          
-                    MasterCard: /^5[1-5][0-9]{14}$/,
-                    Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
-                    AmericanExpress: /^3[47][0-9]{13}$/,
-                    DinersClub: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
-                    JCB: /^(?:2131|1800|35\d{3})\d{11}$/,
-                    Maestro: /^((67\d{2})|(4\d{3})|(5[1-5]\d{2})|(6011))-?\d{4}-?\d{4}-?\d{4}|3[4,7]\d{13}$/
-                  },
-                  ut: "Unknown Type"
-              },
+    /**
+     * @constructor
+     * @param number {String} - Credit card number
+     */
+    initialize: function(number) {
+        this.number = number.replace(/\s/g, '');
+    },
 
-              /* 
-               * Constructor of class CreditCard
-               * @param (String) number credit card
-               * @return none.
-               * @public
-               */
-              initialize: function(number) {
-                  //if not number then return false
-                  if(!number) {
-                        return false;
-                  }                  
-                  //the given number is automatically stripped of whitespace/
-                  this.number = number.replace(/\s/g,'').trim();
+    /**
+     * @method isValid
+     * @return {Boolean} - true if credit card number is valid
+     */
+    isValid: function() {
+        return this.validate();
+    },
 
-                  //for every card from CARDS create a boolean 
-                  //method to tell us is exists that type or not
-                  for(var card in this.options.CARDS) {
-                          this._addHandler(card); 
-                  }
-              },
-              /** 
-                * Check whether if the card valid or not.
-                *
-                * @public 
-                */
-              isValid: function() {
-                  return this._verifyLuhn();  
-              },
+    /**
+     * @method getType
+     * @return {String} - credit card type based on its number
+     */
+    getType: function() {
+        if (this.validate()) {
+            for (var type in this.options.cards) {
+                if (this.is(type)) {
+                    return type;
+                }
+            }
+        }
 
-               /** Does the Luhn validation   
-                 *
-                 * @private 
-                 */
-              _verifyLuhn: function() {
-                    var number = this.number;
-                    var sum = 0, alt = false, i = number.length - 1, num;
-                    if(number.length < 13 || number.length > 19) {  
-                              return false;  
-                    }//end if
+        return this.options.unknown;
+    },
 
-                    while(i>=0) {
+    /**
+     * @method is
+     * @param type {String}
+     * @return {Boolean} - true if card's type equals to passed
+     */
+    is: function(type) {
+        return this.options.cards[type].test(this.number);
+    },
 
-                     //get the next digit 
-                     num = parseInt(number.charAt(i),10);
- 
-                     //if it`s not a valid number then abort 
-                     if(isNaN(num)) {
-                       return false;  
-                     } 
+    /**
+     * @private
+     * @method validate
+     * @return {Boolean} - true if credit card number is valid
+     */
+    validate: function() {
+        var result = 0,
+                odd = false,
+                length = this.number.length;
 
-                     //if it`s an alternate number then double 
-                     if(alt) {
-                       num *= 2;
-                       if(num > 9) {
-                          num = (num%10) + 1; 
-                       }//endif
-                      }//end if
 
-                     //flip the alternate bit
-                     alt = !alt;
+        if (length < 13 || length > 19) {
+            return false;
+        }
 
-                     //add to the rest of the sum
-                     sum += num;            
+        while(length--) {
+            var digit = parseInt(this.number.charAt(length), 10);
 
-                    //go to the next digit
-                    i--;
+            if (isNaN(digit)) {
+                return false;
+            }
 
-                   }//end while 
+            if (odd) {
+                digit *= 2;
+                digit > 9 && (digit = digit % 10 + 1)
+            }
 
-                return (sum%10 == 0);                        
-              },
-              /** 
-                * Card identification . Works for all cards given in options.CARDS
-                * 
-                * @return (String) return "Visa","MasterCard" etc.
-                * @public 
-                */
-              getType: function() {
-                 //first, test whether the card is valid 
-                 //if valid then
-                 if(this._verifyLuhn()) {
-                    //loop through the object this.options.CARDS
-                    for(var card in this.options.CARDS) {
-                            //if one of them then return the card
-                            if(this['is'+card]()) {
-                               return card; 
-                            }
-                    }
-                    //return unknown card
-                    return this.options.ut;
-                 //otherwise the card isn't valid
-                 } else {
-                   return "The card is not valid!";
-                 }
-              },
+            odd = !odd;
 
-              /*
-               * Attachs methods to this object 
-               * @param (String) card given in this.options.CARDS
-               * @return (Function) if card == 'Visa' then create method isVisa() 
-               *                    that return (true/false)(Boolean) etc.
-               * @private
-               */
-              _addHandler: function(card) {
-                        return this['is'+card] = function() {
-                              return this.options.CARDS[card].test(this.number);
-                        };
-              }
-});//end class CreditCard
+            result += digit;
+        }
+
+        return result % 10 == 0;
+    }.protect()
+});
