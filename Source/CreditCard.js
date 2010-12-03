@@ -19,7 +19,7 @@ provides:
 var CreditCard = new Class({
 
               /* Implements */
-              implements: [Options,Events],
+              Implements: [Options,Events],
 
               /* Set options */
               options: {
@@ -48,7 +48,7 @@ var CreditCard = new Class({
                         return false;
                   }                  
                   //the given number is automatically stripped of whitespace/
-                  this.number = number.replace(/\s/g,'').trim();
+                  this.number = number.replace(/\s|\-/g,'').trim(); // Added the \- to strip dashes
 
                   //for every card from CARDS create a boolean 
                   //method to tell us is exists that type or not
@@ -91,7 +91,7 @@ var CreditCard = new Class({
                        num *= 2;
                        if(num > 9) {
                           num = (num%10) + 1; 
-                       }//endif
+                       }//end if
                       }//end if
 
                      //flip the alternate bit
@@ -133,7 +133,7 @@ var CreditCard = new Class({
               },
 
               /*
-               * Attachs methods to this object 
+               * Attaches methods to this object 
                * @param (String) card given in this.options.CARDS
                * @return (Function) if card == 'Visa' then create method isVisa() 
                *                    that return (true/false)(Boolean) etc.
